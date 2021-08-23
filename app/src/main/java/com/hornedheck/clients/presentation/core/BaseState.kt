@@ -2,4 +2,6 @@ package com.hornedheck.clients.presentation.core
 
 import android.os.Parcelable
 
-interface BaseState : Parcelable {}
+interface BaseState : Parcelable
+
+interface StateModel : Parcelable

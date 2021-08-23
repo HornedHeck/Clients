@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.hornedheck.clients.presentation.core.BaseViewModel
 import com.hornedheck.clients.presentation.main.MainFragment
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
@@ -16,10 +17,7 @@ class SplashViewModel(
 
     init {
         viewModelScope.launch {
-
-//            loadData
-
-
+            delay(500L)
             router.newRootScreen(MainFragment.screen)
         }
     }

@@ -1,10 +1,12 @@
 package com.hornedheck.clients.presentation.core
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.LayoutRes
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -12,11 +14,20 @@ import kotlin.reflect.KClass
 
 private const val BUNDLE_STATE_KEY = "state"
 
-abstract class BaseFragment<VM : BaseViewModel<S>, S : BaseState>(
-    @LayoutRes layoutRes: Int,
-) : Fragment(
-    layoutRes
-) {
+abstract class BaseFragment<VM : BaseViewModel<S>, S : BaseState, VB : ViewBinding> : Fragment() {
+
+    protected lateinit var binding: VB
+
+    protected abstract fun inflate(inflater: LayoutInflater, root: ViewGroup?): VB
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = inflate(inflater, container)
+        return binding.root
+    }
 
     abstract fun getViewModelClass(): KClass<VM>
 
@@ -39,13 +50,13 @@ abstract class BaseFragment<VM : BaseViewModel<S>, S : BaseState>(
         lifecycleScope.launchWhenStarted {
             viewModel.stateFlow.collect {
                 restoredState = it
-                updateState(it)
+                binding.updateState(it)
             }
         }
 
     }
 
-    abstract fun updateState(state: S)
+    protected abstract fun VB.updateState(state: S)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

@@ -3,15 +3,14 @@ package com.hornedheck.clients.presentation.main
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.hornedheck.clients.databinding.ItemUserBinding
-import com.hornedheck.clients.domain.user.User
 
 // Also we can add DiffUtils Support
-fun getMainAdapter(editCallback: (User) -> Unit) = ListDelegationAdapter(
+fun getMainAdapter(editCallback: (UserItem) -> Unit) = ListDelegationAdapter(
     getUserAdapter(editCallback)
 )
 
-private fun getUserAdapter(editCallback: (User) -> Unit) =
-    adapterDelegateViewBinding<User, User, ItemUserBinding>(
+private fun getUserAdapter(editCallback: (UserItem) -> Unit) =
+    adapterDelegateViewBinding<UserItem, UserItem, ItemUserBinding>(
         { layoutInflater, parent ->
             ItemUserBinding.inflate(layoutInflater, parent, false)
         }

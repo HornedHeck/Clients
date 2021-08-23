@@ -6,6 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.hornedheck.clients.R
+import com.hornedheck.clients.data.dataModule
+import com.hornedheck.clients.domain.interactorModule
 import com.hornedheck.clients.presentation.navigationModule
 import com.hornedheck.clients.presentation.viewModule
 import kotlinx.coroutines.flow.collect
@@ -22,12 +24,16 @@ class MainActivity : AppCompatActivity() {
 
     private val navigator by lazy { AppNavigator(this, R.id.root, supportFragmentManager) }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         startKoin {
-            modules(viewModule, navigationModule)
+            modules(
+                navigationModule,
+                dataModule,
+                interactorModule,
+                viewModule
+            )
             androidContext(applicationContext)
         }
 

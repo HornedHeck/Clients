@@ -7,17 +7,20 @@ import com.hornedheck.clients.domain.user.getStartUser
 import com.hornedheck.clients.presentation.core.BaseViewModel
 
 class MainViewModel(
+    restoredState: MainState?,
     router: Router,
     private val userInteractor: UserInteractor
 ) : BaseViewModel<MainState>(
-    MainState(),
+    restoredState ?: MainState(),
     router
 ) {
 
-    fun editClicked(user: User) {
+    private fun editInternal(user: User) {
         userInteractor.setUser(user)
 //        router.navigateTo(NameFragment.screen)
     }
 
-    fun addClicked() = editClicked(getStartUser())
+    fun editClicked(user: UserItem) = editInternal(user.toEntity())
+
+    fun addClicked() = editInternal(getStartUser())
 }
